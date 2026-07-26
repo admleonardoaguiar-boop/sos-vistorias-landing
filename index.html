@@ -209,8 +209,7 @@
   <section class="form-section" id="formulario">
     <div class="container">
       <h2>Solicite seu orçamento gratuito</h2>
-      <!-- TODO: conectar a um backend/webhook real antes de publicar (ex.: e-mail, planilha, CRM). Sem isso, o formulário não envia os dados para lugar nenhum. -->
-      <form id="lead-form" onsubmit="return document.getElementById('lead-form').checkValidity();">
+      <form id="lead-form">
         <input class="full" type="text" name="nome" required placeholder="Nome">
         <input type="text" name="contato" required placeholder="WhatsApp ou e-mail">
         <input type="text" name="empresa" placeholder="Empresa (opcional)">
@@ -273,5 +272,21 @@
     </div>
   </section>
 
+<script>
+  document.getElementById('lead-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!this.checkValidity()) { this.reportValidity(); return; }
+    var nome = this.nome.value.trim();
+    var contato = this.contato.value.trim();
+    var empresa = this.empresa.value.trim();
+    var servico = this.servico.options[this.servico.selectedIndex].text;
+    var msg = 'Olá! Vim pelo site e quero solicitar um orçamento.\n\n' +
+      'Nome: ' + nome +
+      (empresa ? '\nEmpresa: ' + empresa : '') +
+      '\nContato: ' + contato +
+      '\nServiço: ' + servico;
+    window.open('https://wa.me/5521964258095?text=' + encodeURIComponent(msg), '_blank');
+  });
+</script>
 </body>
 </html>
